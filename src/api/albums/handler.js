@@ -47,7 +47,7 @@ class AlbumsHandler {
     }
   }
 
-  async getAlbumsHandler() {
+  async getAlbumsHandler(request, h) {
     try {
       const albums = await this._service.getAlbums();
       const response = h.response({
@@ -73,8 +73,8 @@ class AlbumsHandler {
 
   async getAlbumByIdHandler(request, h) {
     try {
-      const { albumId } = request.params;
-      const album = await this._service.getAlbumById(albumId);
+      const { id } = request.params;
+      const album = await this._service.getAlbumById(id);
       const response = h.response({
         status: 'success',
         message: 'Berhasil mengambil album',
@@ -108,9 +108,9 @@ class AlbumsHandler {
   async putAlbumByIdHandler(request, h) {
     try {
       this._validator.validateAlbumPayload(request.payload);
-      const { albumId } = request.params;
+      const { id } = request.params;
       const { name, year } = request.payload;
-      await this._service.updateAlbum(albumId, { name, year });
+      await this._service.editAlbumById(id, { name, year });
       const response = h.response({
         status: 'success',
         message: 'Berhasil mengubah album',
@@ -140,8 +140,8 @@ class AlbumsHandler {
 
   async deleteAlbumByIdHandler(request, h) {
     try {
-      const { albumId } = request.params;
-      await this._service.deleteAlbum(albumId);
+      const { id } = request.params;
+      await this._service.deleteAlbumById(id);
       const response = h.response({
         status: 'success',
         message: 'Berhasil menghapus album',
