@@ -75,6 +75,8 @@ class AlbumsHandler {
     try {
       const { id } = request.params;
       const album = await this._service.getAlbumById(id);
+      const songs = await this._service.getSongsByAlbumId(id);
+      album['songs'] = songs;
       const response = h.response({
         status: 'success',
         message: 'Berhasil mengambil album',

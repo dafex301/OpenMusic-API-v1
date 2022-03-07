@@ -17,13 +17,17 @@ class SongsHandler {
       this._validator.validateSongPayload(request.payload);
       const { title, year, genre, performer, duration, albumId } =
         request.payload;
+
+      // penyesuaian variable
+      const albumid = albumId;
+
       const songId = await this._service.addSong({
         title,
         year,
         genre,
         performer,
         duration,
-        albumId,
+        albumid,
       });
       const response = h.response({
         status: 'success',
@@ -56,8 +60,9 @@ class SongsHandler {
   }
 
   async getSongsHandler(request, h) {
+    const { title, performer } = request.query;
     try {
-      let songs = await this._service.getSongs();
+      let songs = await this._service.getSongs(title, performer);
       songs = songs.map((song) => ({
         id: song.id,
         title: song.title,
