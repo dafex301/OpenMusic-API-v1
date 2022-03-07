@@ -14,7 +14,6 @@ class SongsHandler {
 
   async postSongHandler(request, h) {
     try {
-      console.log(request.payload);
       this._validator.validateSongPayload(request.payload);
       const { title, year, genre, performer, duration, albumId } =
         request.payload;
